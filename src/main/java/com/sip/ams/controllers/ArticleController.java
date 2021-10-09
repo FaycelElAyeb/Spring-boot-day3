@@ -31,7 +31,7 @@ public class ArticleController {
         this.articleRepository = articleRepository;
         this.providerRepository = providerRepository;
     }
-    
+ //aaa   
     @GetMapping("list")
     public String listProviders(Model model) {
     	//model.addAttribute("articles", null);
