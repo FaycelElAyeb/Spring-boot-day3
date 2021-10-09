@@ -1,5 +1,7 @@
 package com.sip.ams.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.sip.ams.entities.Article;
 import com.sip.ams.entities.Provider;
 import com.sip.ams.repository.ProviderRepository;
 @Controller
@@ -70,6 +73,19 @@ public class ProviderController {
         model.addAttribute("providers", providerRepository.findAll());
         return "provider/listProviders";
     }
+    
+    @GetMapping("show/{id}")
+	public String showProvider(@PathVariable("id") long id, Model model) {
+    	Provider provider = providerRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Invalid provider Id:" + id));
+		List<Article> articles = providerRepository.findArticlesByProvider(id);
+		for (Article a : articles)
+			System.out.println("Article = " + a.getLabel());
+		
+		model.addAttribute("articles", articles);
+		model.addAttribute("provider", provider);
+		return "provider/showProvider";
+	}
 
 
 }
