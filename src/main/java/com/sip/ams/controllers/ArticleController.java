@@ -3,6 +3,8 @@ package com.sip.ams.controllers;
 
 
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +33,14 @@ public class ArticleController {
         this.articleRepository = articleRepository;
         this.providerRepository = providerRepository;
     }
- //aaa   
+
     @GetMapping("list")
-    public String listProviders(Model model) {
+    public String listArticles(Model model) {
     	//model.addAttribute("articles", null);
-        model.addAttribute("articles", articleRepository.findAll());
+    	List<Article> la = (List<Article>)articleRepository.findAll();
+    	if(la.size()==0)
+    		la=null;
+        model.addAttribute("articles", la);
         return "article/listArticles";
     }
     
